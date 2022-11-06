@@ -61,9 +61,11 @@ describe('fff', () => {
 describe('www', () => {
   beforeEach(() => {
     axios.get.mockImplementation(() =>
-      Promise.resolve({ data: {users: MOCKED_USERS} }));
+      Promise.resolve({ data: MOCKED_USERS }));
 
+    // eslint-disable-next-line testing-library/no-unnecessary-act
     act(() => {
+      // eslint-disable-next-line testing-library/no-render-in-setup
       render(<Tuiter/>)
     });
   });
@@ -72,7 +74,7 @@ describe('www', () => {
   test("login renders users", async () => {
     // console.log(qwe);
     axios.get.mockImplementation(() =>
-      Promise.resolve({ data: {users: MOCKED_USERS} }));
+      Promise.resolve({ data: MOCKED_USERS }));
 
     await act(async () => {
       // get all the links
@@ -85,7 +87,7 @@ describe('www', () => {
 
     await waitFor(() => {
       // const regex = new RegExp(link.expect.textOnScreen, "i");
-      const linkElement = screen.getByText(/bob/i);
+      const linkElement = screen.getByText(/ellen_ripley/i);
       expect(linkElement).toBeInTheDocument();
     });
 
@@ -141,38 +143,35 @@ describe('www', () => {
 
 describe('createUser', () => {
 
-
   // axios.get.mockResolvedValue(resp);
   // axios.get.mockImplementation(() => Promise.resolve(resp))
 
-  jest.mock('axios', () => ({
-    get: jest.fn((url) => {
+  jest.mock("axios", () => ({
+    get: jest.fn(() => {
       return new Promise((resolve) => {
         const ripley = {
-          username: 'ellenripley',
-          password: 'lv426',
-          email: 'ellenripley@aliens.com'
+          username: "ellenripley",
+          password: "lv426",
+          email: "ellenripley@aliens.com",
         };
         const users = [ripley];
-        const resp = {data: users};
+        const resp = { data: users };
         resolve(resp);
-      })
-    })
-  }))
+      });
+    }),
+  }));
 
   test('user service can insert new users in database', async () => {
-
     act(() => {
       render(
-        <HashRouter>
-          <Login/>
-        </HashRouter>
+          <HashRouter>
+            <Login />
+          </HashRouter>
       );
     });
 
     const user = screen.getByText(/ellenripley/i);
     expect(user).toBeInTheDocument();
-
   });
 });
 
