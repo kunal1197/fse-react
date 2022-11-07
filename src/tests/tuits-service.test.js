@@ -131,16 +131,15 @@ describe("can retrieve all tuits with REST API", () => {
     const tuitsWeInserted = tuitsFetched.filter(
       (tuit) => createdTuitIDs.indexOf(tuit._id) >= 0
     );
-    tuitsWeInserted.forEach((tuit) => {
-      const tuitContent = tuitsToBeInserted.find(
-        (currentTuit) =>
-          currentTuit.tuit === tuit.tuit &&
-          currentTuit.postedBy === tuit.postedBy._id
-      );
-      // the inserted tuit should be present in the DB
-      expect(tuitContent).not.toBeNull();
-      expect(tuitContent.tuit).toEqual(tuit.tuit);
-      expect(tuitContent.postedBy).toEqual(tuit.postedBy._id);
-    });
+
+    for (let i = 0; i < tuitsWeInserted.length; i++) {
+      expect(
+        tuitsWeInserted.find(
+          (tuit) =>
+            tuit.tuit === tuitsToBeInserted[i].tuit &&
+            tuit.postedBy === tuitsToBeInserted[i].postedBy
+        )
+      ).toBeDefined();
+    }
   });
 });
