@@ -6,14 +6,14 @@ import axios from "axios";
 import TuitsData from "../components/tuits/tuits-data.json";
 import TuitsList from "../components/tuits/index";
 
-jest.mock("axios");
+// jest.mock("axios");
 
 const MOCKED_USERS = ["alice", "bob", "charlie"];
 
 const MOCKED_TUITS = ["alice's tuit", "bob's tuit", "charlie's tuit"];
 
 test("tuit list renders static tuit array", () => {
-  // TODO: implement this
+  // TODO: implement thisz
   render(
     <HashRouter>
       <TuitsList tuits={TuitsData} />
@@ -31,7 +31,7 @@ test("tuit list renders async", async () => {
       <TuitsList tuits={tuits} />
     </HashRouter>
   );
-  const linkElement = screen.getByText(/Kunal's Testing tuit/i);
+  const linkElement = screen.getByText(/Hi this is Kunal speaking!/i);
   expect(linkElement).toBeInTheDocument();
 });
 

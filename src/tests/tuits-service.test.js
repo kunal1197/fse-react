@@ -7,7 +7,7 @@ import {
 
 describe("can create tuit with REST API", () => {
   // TODO: implement this
-  // sample tuit to be deleted
+  // A simple Tuit object to be deleted
   const sampleTuit = {
     tuit: "Hi this is Kunal speaking!",
     postedBy: "63425a966a11d19acda76bfd",
@@ -15,14 +15,14 @@ describe("can create tuit with REST API", () => {
 
   let createdTuitID = null;
 
-  // clean up after test runs
+  // perform cleaning up after test
   afterAll(() => {
-    // remove any data we created
+    // delete test tuits
     return deleteTuit(createdTuitID);
   });
 
   test("can insert new tuits with REST API", async () => {
-    // insert new tuit into the database
+    // Perform insertions in the database
     const newTuit = await createTuit(sampleTuit.postedBy, sampleTuit);
     expect(newTuit.postedBy).toEqual(sampleTuit.postedBy);
     expect(newTuit.tuit).toEqual(sampleTuit.tuit);
@@ -32,17 +32,17 @@ describe("can create tuit with REST API", () => {
 
 describe("can delete tuit wtih REST API", () => {
   // TODO: implement this
-  // sample tuit to be inserted
+  // A simple Tuit object to be inserted
   const sampleTuit = {
     tuit: "Hello this is Kunal!",
     postedBy: "63425a966a11d19acda76bfd",
   };
 
-  // record tuit ID so we can delete it later
+  // to be deleted later
   let createdTuitID = null;
 
   beforeAll(async () => {
-    // insert the sample tuit into the DB
+    // insertion of tuit in the database
     const createdTuit = await createTuit(sampleTuit.postedBy, sampleTuit);
     createdTuitID = createdTuit._id;
   });
@@ -60,18 +60,18 @@ describe("can retrieve a tuit by their primary key with REST API", () => {
     postedBy: "63425a966a11d19acda76bfd",
   };
 
-  // store tuit ID in this variable, so that we can delete it later.
+  // to be deleted later
   let createdTuitID = null;
 
   beforeAll(async () => {
-    // insert the sample tuit into the DB
+    // insertion of tuit in the database
     const createdTuit = await createTuit(sampleTuit.postedBy, sampleTuit);
     createdTuitID = createdTuit._id;
   });
 
-  // clean up after test runs
+  // perform cleaning up after test
   afterAll(() => {
-    // remove the tuit we created
+    // delete test tuits
     return deleteTuit(createdTuitID);
   });
 
@@ -84,7 +84,7 @@ describe("can retrieve a tuit by their primary key with REST API", () => {
 
 describe("can retrieve all tuits with REST API", () => {
   // TODO: implement this
-  // an array of tuits we need to insert
+  // Array object of Tuits to be inserted
   const tuitsToBeInserted = [
     {
       tuit: "Kunal's tuit number 1",
@@ -100,12 +100,12 @@ describe("can retrieve all tuits with REST API", () => {
     },
   ];
 
-  // initialize an array to store the IDs of the created tuits.
+  // array to store the ids of the inserted tuits
   const createdTuitIDs = [];
 
-  // setup data before test
+  // setting up data
   beforeAll(() =>
-    // insert the array of tuits above into the DB
+    // insertion of tuit array in the database
     Promise.all(
       tuitsToBeInserted.map(async (tuit) => {
         const createdTuit = await createTuit(tuit.postedBy, tuit);
@@ -114,20 +114,20 @@ describe("can retrieve all tuits with REST API", () => {
     )
   );
 
-  // clean up the created tuits
+  // perform cleaning on created tuits
   afterAll(() =>
-    // delete the tuits we inserted
+    // deletion of tuit array in the database
     Promise.all(createdTuitIDs.map(async (tid) => await deleteTuit(tid)))
   );
 
   test("can retrieve all tuits from REST API", async () => {
-    // retrieve all the tuits
+    // get all tuits
     const tuitsFetched = await findAllTuits();
-    // there should be a minimum number of tuits
+    // check minimum length
     expect(tuitsFetched.length).toBeGreaterThanOrEqual(
       tuitsToBeInserted.length
     );
-    // let's check each tuit we inserted
+    // check if our inserted tuits are present
     const tuitsWeInserted = tuitsFetched.filter(
       (tuit) => createdTuitIDs.indexOf(tuit._id) >= 0
     );
