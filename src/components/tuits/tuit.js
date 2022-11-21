@@ -8,6 +8,15 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit }) => {
   const navigate = useNavigate();
   const daysOld = (tuit) => {
     const now = new Date();
+    const nowMillis = now.getTime();
+    const posted = new Date(tuit.postedOn);
+    const postedMillis = posted.getTime();
+    const oldMillis = nowMillis - postedMillis;
+    let old = 0.0;
+    const secondsOld = oldMillis / 1000.0;
+    const minutesOld = secondsOld / 60.0;
+    const hoursOld = minutesOld / 60.0;
+    const daysOld = hoursOld / 24.0;
     if (daysOld > 1) {
       old = Math.round(daysOld) + "d";
     } else if (hoursOld > 1) {
