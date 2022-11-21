@@ -9,7 +9,9 @@ const MyLikes = () => {
   useEffect(findTuitsILike, []);
 
   return (
-    console.log(likedTuits),
+    <div>
+      <Tuits tuits={likedTuits} refreshTuits={findTuitsILike} />
+    </div>
   );
 };
 export default MyLikes;
