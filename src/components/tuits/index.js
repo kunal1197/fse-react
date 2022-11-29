@@ -10,13 +10,18 @@ const Tuits = ({ tuits = [], refreshTuits }) => {
   const likeTuit = (tuit) =>
     likesService
       .userLikesTuit("me", tuit._id)
-      .then(refreshTuits)
+      .then(() => {
+        console.log("likeTuit called!");
+        refreshTuits();
+      })
       .catch((e) => alert(e));
+
   const dislikeTuit = (tuit) =>
     dislikesService
       .userDislikesTuit("me", tuit._id)
       .then(refreshTuits)
       .catch((e) => alert(e));
+
   const deleteTuit = (tid) => service.deleteTuit(tid).then(refreshTuits);
 
   return (
